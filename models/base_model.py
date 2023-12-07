@@ -25,7 +25,6 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-
     def __str__(self):
         """Returns the string reading of the BaseModel instance"""
         return "[{}] ({}) {}".format(self.__class__.
