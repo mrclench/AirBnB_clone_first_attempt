@@ -4,6 +4,7 @@
 import json
 import uuid
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -26,12 +27,10 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-
     def __str__(self):
         """Returns the string reading of the BaseModel instance"""
         return "[{}] ({}) {}".format(self.__class__.
                                      __qualname__, self.id, self.__dict__)
-
 
     def to_dict(self):
         """This method converts attributes of an instance into a dictionary"""
@@ -42,7 +41,11 @@ class BaseModel:
         return base_model_dict
 
     def save(self):
-        """This method updates the attribute (updated_at) with current datetime"""
+        """This method updates the attribute (updated_at) with current datetime
+        and serializes __objects into a JSON file (path: __file_path)"""
         self.updated_at = datetime.now()
+        storage.save()
 
-
+    def reload(self):
+        """Deserialize the JSON file to __objects"""
+        storage.reload()
