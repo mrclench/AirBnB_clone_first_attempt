@@ -51,6 +51,41 @@ class TestBaseModel(unittest.TestCase):
         my_model_json = json.dumps(my_model_dict)
         self.assertIsInstance(my_model_json, str)
 
+    """New tests """
+    def test_init_with_kwargs(self):
+        """Test __init__ when instantiated with kwargs"""
+        """ Example kwargs representing attributes loaded from a JSON file"""
+        kwargs_example = {
+            'id': 'some_id',
+            'created_at': '2022-01-01T12:00:00.000000',
+            'updated_at': '2022-01-01T13:30:00.000000',
+            'other_attribute': 'some_value'
+        }
+
+        """ Create an instance of BaseModel using kwargs"""
+        my_model = BaseModel(**kwargs_example)
+
+        """ Verify that attributes from kwargs are correctly set in the instance"""
+        self.assertEqual(my_model.id, kwargs_example['id'])
+        self.assertEqual(my_model.created_at, datetime.strptime(kwargs_example['created_at'], "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(my_model.updated_at, datetime.strptime(kwargs_example['updated_at'], "%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(getattr(my_model, 'other_attribute', None), 'some_value')
+
+    def test_init_with_kwargs_convert_isoformat(self):
+        """Test __init__ when instantiated with kwargs and converting isoformat"""
+        """Example kwargs with ISO format strings for created_at and updated_at"""
+        kwargs_isoformat = {
+            'created_at': '2022-01-01T12:00:00.000000',
+            'updated_at': '2022-01-01T13:30:00.000000',
+        }
+
+        """ Create an instance of BaseModel using kwargs with ISO format strings"""
+        my_model = BaseModel(**kwargs_isoformat)
+
+        """ Verify that attributes are correctly set and converted to datetime objects """
+        self.assertIsInstance(my_model.created_at, datetime)
+        self.assertIsInstance(my_model.updated_at, datetime)
+
 
 if __name__ == '__main__':
     unittest.main()
