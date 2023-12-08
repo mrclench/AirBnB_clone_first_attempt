@@ -25,3 +25,11 @@ class FileStorage:
         """serializes _objects to a json file """
         with open('data_storage.json', 'w', encoding='utf-8') as file:
             json.dump(self.__objects, file, default=lambda o: o.__dict__, indent=4)
+
+    def reload(self):
+        """This instance method deserializes the JSON file to __objects"""
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r', encoding='utf-8') as file:
+                self.__objects = json.load(file)
+        else:
+            {}
