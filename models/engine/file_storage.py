@@ -38,3 +38,4 @@ class FileStorage:
                 self.__objects = json.load(file)
         else:
             {}
+
