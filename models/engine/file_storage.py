@@ -11,6 +11,11 @@ class FileStorage:
     __file_path = "data_storage.json"
     __objects = {}
 
+    def __init__(self):
+        """Initialize FileStorage instance"""
+        self.__file_path = "data_storage.json"
+        self.__objects = {}
+
     def all(self):
         """returns the dictionary _objects"""
         return self.__objects
@@ -23,7 +28,7 @@ class FileStorage:
 
     def save(self):
         """serializes _objects to a json file """
-        with open('data_storage.json', 'w', encoding='utf-8') as file:
+        with open('self.__file_path', 'w', encoding='utf-8') as file:
             json.dump(self.__objects, file, default=lambda o: o.__dict__, indent=4)
 
     def reload(self):
