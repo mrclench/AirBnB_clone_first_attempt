@@ -49,3 +49,4 @@ class BaseModel:
     def reload(self):
         """Deserialize the JSON file to __objects"""
         storage.reload()
+
