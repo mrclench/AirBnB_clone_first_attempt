@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """The console for Airbnb project"""
+
 import cmd
+from models.base_model import BaseModel
+import json
 import sys
 
 class HBNBCommand(cmd.Cmd):
@@ -16,6 +19,10 @@ class HBNBCommand(cmd.Cmd):
 		return True
 
 	def emptyline(self):
+		pass
+
+	def do_create(self, line):
+		"""Creates a new instance of BaseModel and saves it"""
 		pass
 
 if __name__ == '__main__':
