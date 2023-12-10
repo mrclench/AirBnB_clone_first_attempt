@@ -11,6 +11,8 @@ class FileStorage:
     __file_path = "data_storage.json"
     __objects = {}
 
+    classes = {}
+
     def __init__(self):
         """Initialize FileStorage instance"""
         self.__file_path = "data_storage.json"

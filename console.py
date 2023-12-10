@@ -3,6 +3,7 @@
 
 import cmd
 from models.base_model import BaseModel
+from models import storage
 import json
 import sys
 
@@ -22,8 +23,23 @@ class HBNBCommand(cmd.Cmd):
 		pass
 
 	def do_create(self, line):
-		"""Creates a new instance of BaseModel and saves it"""
-		pass
+		"""Creates a new instance of BaseModel and saves it and prints out its unique id
+		Usage: create <class_name>
+		"""
+		args = line.split()
+		if not args:
+			print("** class name missing **")
+			return
+
+		class_name = args[0]
+		if class_name not in storage.classes:
+			print("** class doesn't exist **")
+			return
+
+		new_instance = storage.classes[class_name]()
+		storage.save()
+		print(new_instance.id)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
