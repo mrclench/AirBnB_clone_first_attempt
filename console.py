@@ -64,7 +64,8 @@ class HBNBCommand(cmd.Cmd):
 			print("** no instance found **")
 			return
 
-		instnce
+		instance = all_objects[key]
+		print(instance)
 
 
 if __name__ == '__main__':
