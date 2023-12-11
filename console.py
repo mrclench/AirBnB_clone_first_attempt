@@ -7,6 +7,8 @@ from models import storage
 import json
 import sys
 
+my_instance = BaseModel()
+
 class HBNBCommand(cmd.Cmd):
 	"""A cmd module for building custom shells that let a user work with a program interactively."""
 	prompt = '(hbnb) '
@@ -15,6 +17,24 @@ class HBNBCommand(cmd.Cmd):
 		super().__init__()
 		self.storage = storage
 		self.classes = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
+
+	def do_create(self, line):
+		"""Creates a new instance of BaseModel and saves it and prints out its unique id
+		Usage: create <class_name>
+		"""
+		args = line.split()
+		if not args:
+			print("** class name missing **")
+			return
+
+		class_name = args[0]
+		if class_name not in storage.classes and class_name not in globals():
+			print("** class doesn't exist **")
+			return
+
+		new_instance = globals()[class_name]()
+		storage.save()
+		print(new_instance.id)
 
 	def do_EOF(self, line):
 		"Exit"
@@ -27,36 +47,14 @@ class HBNBCommand(cmd.Cmd):
 	def emptyline(self):
 		pass
 
-	def do_create(self, line):
-		"""Creates a new instance of BaseModel and saves it and prints out its unique id
-		Usage: create <class_name>
-		"""
-		args = line.split()
-		if not args:
-			print("** class name missing **")
-			return
-
-		class_name = args[0]
-		if class_name not in storage.classes:
-			print("** class doesn't exist **")
-			return
-
-		new_instance = storage.classes[class_name]()
-		storage.save()
-		print(new_instance.id)
-
 	def do_show(self, line):
 		"""Prints the string representation of an instance based on the class name and class id"""
 		args = line.split()
-		if not args:
+		if not args or args[0] not in self.classes:
 			print("** class name missing **")
 			return
 
 		class_name = args[0]
-		if class_name not in storage.classes:
-			print("** class doesn't exist **")
-			return
-
 		if len(args) < 2:
 			print("** instance id missing **")
 			return
@@ -146,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
 		instance = all_objects[key]
 
 		instance.save()
-
+storage.reload()
 
 
 

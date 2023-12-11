@@ -8,14 +8,14 @@ import datetime
 
 class FileStorage:
     """File storage class for serialization and deserialization of objects"""
-    __file_path = "data_storage.json"
+    __file_path = "file.json"
     __objects = {}
 
     classes = {}
 
     def __init__(self):
         """Initialize FileStorage instance"""
-        self.__file_path = "data_storage.json"
+        self.__file_path = "file.json"
         self.__objects = {}
 
     def all(self):
