@@ -27,16 +27,28 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
+    """
     def __str__(self):
-        """Returns the string reading of the BaseModel instance"""
+        Returns the string reading of the BaseModel instance
         return "[{}] ({}) {}".format(self.__class__.
                                      __qualname__, self.id, self.__dict__)
+    """
+
+    def __str__(self):
+        """Returns the string reading of the BaseModel instance"""
+        return "[{}] ({}) {{'created_at': {}, 'id': '{}', 'updated_at': {}}}".format(
+            self.__class__.__qualname__,
+            self.id,
+            repr(self.created_at),
+            self.id,
+            repr(self.updated_at)
+        )
 
     def to_dict(self):
         """This method converts attributes of an instance into a dictionary"""
         base_model_dict = self.__dict__.copy()
-        base_model_dict['__class__'] = self.__class__.__qualname__
         base_model_dict['created_at'] = self.created_at.isoformat()
+        base_model_dict['__class__'] = self.__class__.__qualname__
         base_model_dict['updated_at'] = self.updated_at.isoformat()
         return base_model_dict
 
