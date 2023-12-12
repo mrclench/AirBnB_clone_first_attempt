@@ -42,9 +42,6 @@ class HBNBCommand(cmd.Cmd):
 
 
 		object_to_create = globals()[class_name]()
-#		object_to_create.save()
-#		print(object_to_create.id)
-#		object_to_create = HBNBCommand.__classes_allowed[class_name]()
 		storage.new(object_to_create)
 		storage.save()
 		print(object_to_create.id)
@@ -93,7 +90,7 @@ class HBNBCommand(cmd.Cmd):
 
 		class_name = args[0]
 
-		if class_name not in storage.classes:
+		if class_name not in HBNBCommand.__classes_allowed:
 			print("** class doesn't exist **")
 			return
 
@@ -113,22 +110,6 @@ class HBNBCommand(cmd.Cmd):
 		del all_objects[key]
 		storage.save()
 
-	"""
-	def do_all(self, line):
-		Prints 'all' string representation of 'all' instances based or not on the class name
-		args = line.split()
-		if not args or args[0] not in self.classes:
-			print("** class doesn't exist **")
-			return
-
-		class_name = args[0]
-		all_objects = storage.all()
-		instances = [str(obj) for obj in all_objects.values() if type(obj).__qualname__ == class_name]
-
-		for instance in instances:
-			print(instance)
-		"""
-
 	def do_all(self, command_args):
 		"""Prints string representation of all instances in the console"""
 		class_name = command_args.split()[0] if command_args else None
@@ -142,18 +123,21 @@ class HBNBCommand(cmd.Cmd):
 							not class_name or key.split('.')[0] == class_name]
 		print(filtered_objects)
 
-	def do_update(self, line):
+
+	def do_update(self, command_args):
 		"""Updates an instance of the class name and id by adding or updating attribute."""
-		args = line.split()
+		args = command_args.split()
+
 		if not args or args[0] not in self.classes:
 			print("** class name missing **" if not args else "** class doesn't exist **")
 			return
+
+		class_name = args[0]
 
 		if len(args) < 2:
 			print("** instance id missing **")
 			return
 
-		class_name = args[0]
 		instance_id = args[1]
 		all_objects = storage.all()
 
@@ -161,6 +145,8 @@ class HBNBCommand(cmd.Cmd):
 		if key not in all_objects:
 			print("** no instance found **")
 			return
+
+		instance = all_objects[key]
 
 		if len(args) < 3:
 			print("** attribute name missing **")
@@ -172,8 +158,9 @@ class HBNBCommand(cmd.Cmd):
 			return
 
 		attr_value = args[3]
-		instance = all_objects[key]
 
+		# Update the attribute in the instance
+		setattr(instance, attr_name, attr_value)
 		instance.save()
 
 storage = FileStorage()
