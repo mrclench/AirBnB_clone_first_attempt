@@ -11,6 +11,7 @@ my_instance = BaseModel()
 storage = FileStorage()
 storage.reload()
 
+
 class HBNBCommand(cmd.Cmd):
 	"""A cmd module for building custom shells that let a user work with a program interactively."""
 	__classes_allowed = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
@@ -40,12 +41,10 @@ class HBNBCommand(cmd.Cmd):
 			print("** class doesn't exist **")
 			return
 
-
 		object_to_create = globals()[class_name]()
 		storage.new(object_to_create)
 		storage.save()
 		print(object_to_create.id)
-
 
 	def do_EOF(self, line):
 		"Exit"
@@ -123,7 +122,6 @@ class HBNBCommand(cmd.Cmd):
 							not class_name or key.split('.')[0] == class_name]
 		print(filtered_objects)
 
-
 	def do_update(self, command_args):
 		"""Updates an instance of the class name and id by adding or updating attribute."""
 		args = command_args.split()
@@ -162,6 +160,7 @@ class HBNBCommand(cmd.Cmd):
 		# Update the attribute in the instance
 		setattr(instance, attr_name, attr_value)
 		instance.save()
+
 
 storage = FileStorage()
 storage.reload()
