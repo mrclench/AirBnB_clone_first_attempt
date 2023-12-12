@@ -33,17 +33,22 @@ class HBNBCommand(cmd.Cmd):
 		"""create the object in console"""
 		if not self.first_class_name_checks(command_args):
 			return
-		else:
-			class_name = command_args.split()[0]
 
-			if class_name not in HBNBCommand.__classes_allowed:
-				print("** class doesn't exist **")
-				return
+		class_name = command_args.split()[0]
+
+		if class_name not in HBNBCommand.__classes_allowed:
+			print("** class doesn't exist **")
+			return
 
 
-			object_to_create = globals()[class_name]()
-			object_to_create.save()
-			print(object_to_create.id)
+		object_to_create = globals()[class_name]()
+#		object_to_create.save()
+#		print(object_to_create.id)
+#		object_to_create = HBNBCommand.__classes_allowed[class_name]()
+		storage.new(object_to_create)
+		storage.save()
+		print(object_to_create.id)
+
 
 	def do_EOF(self, line):
 		"Exit"
@@ -108,8 +113,9 @@ class HBNBCommand(cmd.Cmd):
 		del all_objects[key]
 		storage.save()
 
+	"""
 	def do_all(self, line):
-		"""Prints 'all' string representation of 'all' instances based or not on the class name"""
+		Prints 'all' string representation of 'all' instances based or not on the class name
 		args = line.split()
 		if not args or args[0] not in self.classes:
 			print("** class doesn't exist **")
@@ -121,6 +127,20 @@ class HBNBCommand(cmd.Cmd):
 
 		for instance in instances:
 			print(instance)
+		"""
+
+	def do_all(self, command_args):
+		"""Prints string representation of all instances in the console"""
+		class_name = command_args.split()[0] if command_args else None
+		stored_objects = storage.all()
+
+		if class_name and class_name not in self.__classes_allowed:
+			print("** class doesn't exist **")
+			return
+
+		filtered_objects = [str(obj) for key, obj in stored_objects.items() if
+							not class_name or key.split('.')[0] == class_name]
+		print(filtered_objects)
 
 	def do_update(self, line):
 		"""Updates an instance of the class name and id by adding or updating attribute."""
