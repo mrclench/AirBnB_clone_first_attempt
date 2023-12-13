@@ -15,11 +15,10 @@ class BaseModel:
         if kwargs:
             """Collects the attributes with keys from kwargs"""
             for key, value in kwargs.items():
-                if key == '__class__':
-                    continue
-                if key in ['created_at'] or key in ['updated_at']:
+                if key == 'created_at' or key == 'updated_at':
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                setattr(self, key, value)
+                if key != '__class__':
+                    setattr(self, key, value)
 
         else:
             """Recreate new instances for attributes"""
@@ -27,42 +26,28 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
-    """
-    def __str__(self):
-        Returns the string reading of the BaseModel instance
-        return "[{}] ({}) {}".format(self.__class__.
-                                     __qualname__, self.id, self.__dict__)
-    """
-
     def __str__(self):
         """Returns the string reading of the BaseModel instance"""
-        #return "[{}] ({}) {{'created_at': {}, 'id': '{}', 'updated_at': {}}}".format(
-        #    self.__class__.__qualname__,
-        #    self.id,
-        #    repr(self.created_at),
-        #    self.id,
-        #    repr(self.updated_at)
-        #)
-        attributes = self.__dict__.copy()
-        attributes.pop('__class__', None)  # Remove '__class__' attribute
-        for key, value in attributes.items():
-            if isinstance(value, datetime):
-                attributes[key] = value  # Keep datetime objects as is
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, attributes)
+        return "[{}] ({}) {}".format(self.__class__.
+                                     __qualname__, self.id, self.__dict__)
 
-    def to_dict(self):
-        """This method converts attributes of an instance into a dictionary"""
-        base_model_dict = self.__dict__.copy()
-        base_model_dict['created_at'] = self.created_at.isoformat()
-        base_model_dict['__class__'] = self.__class__.__qualname__
-        base_model_dict['updated_at'] = self.updated_at.isoformat()
-        return base_model_dict
+    def __repr__(self):
+        """returns string function"""
+        return self.__str__()
 
     def save(self):
         """This method updates the attribute (updated_at) with current datetime
         and serializes __objects into a JSON file (path: __file_path)"""
         self.updated_at = datetime.now()
         storage.save()
+
+    def to_dict(self):
+        """This method converts attributes of an instance into a dictionary"""
+        base_model_dict = self.__dict__.copy()
+        base_model_dict['__class__'] = self.__class__.__qualname__
+        base_model_dict['created_at'] = self.created_at.isoformat()
+        base_model_dict['updated_at'] = self.updated_at.isoformat()
+        return base_model_dict
 
     def reload(self):
         """Deserialize the JSON file to __objects"""
