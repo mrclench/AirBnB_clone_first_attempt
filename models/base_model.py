@@ -36,13 +36,19 @@ class BaseModel:
 
     def __str__(self):
         """Returns the string reading of the BaseModel instance"""
-        return "[{}] ({}) {{'created_at': {}, 'id': '{}', 'updated_at': {}}}".format(
-            self.__class__.__qualname__,
-            self.id,
-            repr(self.created_at),
-            self.id,
-            repr(self.updated_at)
-        )
+        #return "[{}] ({}) {{'created_at': {}, 'id': '{}', 'updated_at': {}}}".format(
+        #    self.__class__.__qualname__,
+        #    self.id,
+        #    repr(self.created_at),
+        #    self.id,
+        #    repr(self.updated_at)
+        #)
+        attributes = self.__dict__.copy()
+        attributes.pop('__class__', None)  # Remove '__class__' attribute
+        for key, value in attributes.items():
+            if isinstance(value, datetime):
+                attributes[key] = value  # Keep datetime objects as is
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, attributes)
 
     def to_dict(self):
         """This method converts attributes of an instance into a dictionary"""

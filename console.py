@@ -4,8 +4,7 @@
 import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
-import json
-import sys
+
 
 my_instance = BaseModel()
 storage = FileStorage()
@@ -125,17 +124,15 @@ class HBNBCommand(cmd.Cmd):
 	def do_update(self, command_args):
 		"""Updates an instance of the class name and id by adding or updating attribute."""
 		args = command_args.split()
-
 		if not args or args[0] not in self.classes:
 			print("** class name missing **" if not args else "** class doesn't exist **")
 			return
-
-		class_name = args[0]
 
 		if len(args) < 2:
 			print("** instance id missing **")
 			return
 
+		class_name = args[0]
 		instance_id = args[1]
 		all_objects = storage.all()
 
@@ -143,8 +140,6 @@ class HBNBCommand(cmd.Cmd):
 		if key not in all_objects:
 			print("** no instance found **")
 			return
-
-		instance = all_objects[key]
 
 		if len(args) < 3:
 			print("** attribute name missing **")
@@ -155,7 +150,8 @@ class HBNBCommand(cmd.Cmd):
 			print("** value missing **")
 			return
 
-		attr_value = args[3]
+		attr_value = args[3].strip('"')
+		#instance = all_objects[key]
 
 		# Update the attribute in the instance
 		setattr(instance, attr_name, attr_value)

@@ -6,7 +6,6 @@ import os
 import datetime
 
 
-
 class FileStorage:
     """File storage class for serialization and deserialization of objects"""
     __file_path = "file.json"
