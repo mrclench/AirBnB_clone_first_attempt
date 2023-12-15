@@ -16,38 +16,38 @@ class HBNBCommand(cmd.Cmd):
     __classes_allowed = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
     prompt = '(hbnb) '
 
-	def __init__(self):
-		super().__init__()
-		self.storage = storage
-		self.classes = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
-		storage.reload()
+    def __init__(self):
+        super().__init__()
+        self.storage = storage
+        self.classes = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
+        storage.reload()
 
-	def first_class_name_checks(self, command_args):
-		"""Perform first checks on the command arguments"""
-		if not command_args:
-			print("** class name missing **")
-			return False
-		return True
+    def first_class_name_checks(self, command_args):
+        """Perform first checks on the command arguments"""
+        if not command_args:
+            print("** class name missing **")
+            return False
+        return True
 
-	def do_create(self, command_args):
-		"""create the object in console"""
-		if not self.first_class_name_checks(command_args):
-			return
+    def do_create(self, command_args):
+        """create the object in console"""
+        if not self.first_class_name_checks(command_args):
+            return
 
-		class_name = command_args.split()[0]
+        class_name = command_args.split()[0]
 
-		if class_name not in HBNBCommand.__classes_allowed:
-			print("** class doesn't exist **")
-			return
+        if class_name not in HBNBCommand.__classes_allowed:
+            print("** class doesn't exist **")
+            return
 
-		object_to_create = globals()[class_name]()
-		storage.new(object_to_create)
-		storage.save()
-		print(object_to_create.id)
+        object_to_create = globals()[class_name]()
+        storage.new(object_to_create)
+        storage.save()
+        print(object_to_create.id)
 
-	def do_EOF(self, line):
-		"Exit"
-		return True
+    def do_EOF(self, line):
+        "Exit"
+        return True
 
 	def do_quit(self, line):
 		'"Quit command to exit the program"\n'
