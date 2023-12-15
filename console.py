@@ -12,9 +12,9 @@ storage.reload()
 
 
 class HBNBCommand(cmd.Cmd):
-	"""A cmd module for building custom shells that let a user work with a program interactively."""
-	__classes_allowed = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
-	prompt = '(hbnb) '
+    """A cmd module for building custom shells that let a user work with a program interactively."""
+    __classes_allowed = ["BaseModel", "User", "Place", "Review", "State", "City", "Amenity"]
+    prompt = '(hbnb) '
 
 	def __init__(self):
 		super().__init__()
