@@ -151,10 +151,10 @@ class HBNBCommand(cmd.Cmd):
             return
 
         attr_value = args[3].strip('"')
-        #instance = all_objects[key]
+        instance = all_objects[key]
 
-		# Update the attribute in the instance
-		setattr(instance, attr_name, attr_value)
+        # Update the attribute in the instance
+        setattr(instance, attr_name, attr_value)
         instance.save()
 
 
