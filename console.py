@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 """The console for Airbnb project"""
 
+
 import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
+import io
+import sys
 
 
 my_instance = BaseModel()
@@ -160,6 +163,16 @@ class HBNBCommand(cmd.Cmd):
 
 storage = FileStorage()
 storage.reload()
+
+# Redirecting stdout for testing
+stdout_backup = sys.stdout
+sys.stdout = io.StringIO()
+
+# Creating an instance of the HBNBCommand class
+my_console = HBNBCommand()
+
+# Restoring the original stdout
+sys.stdout = stdout_backup
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
