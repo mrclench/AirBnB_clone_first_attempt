@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         filtered_objects = [str(obj) for key, obj in stored_objects.items() if
-                                not class_name or key.split('.')[0] == class_name]
+                            not class_name or key.split('.')[0] == class_name]
         print(filtered_objects)
 
     def do_update(self, command_args):
@@ -162,4 +162,4 @@ storage = FileStorage()
 storage.reload()
 
 if __name__ == '__main__':
-	HBNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
