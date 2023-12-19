@@ -5,10 +5,6 @@
 import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
-import io
-import sys
-sys.stdout = io.StringIO()
-sys.stdout = sys.__stdout__
 
 my_instance = BaseModel()
 storage = FileStorage()
@@ -164,8 +160,6 @@ class HBNBCommand(cmd.Cmd):
 
 storage = FileStorage()
 storage.reload()
-
-my_console = HBNBCommand()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
